@@ -1,5 +1,7 @@
 # NIP-49
 
+**IT IS JUST FOR LEARN, SO PLEASE DON'T USE IT IN PRODUCTION.**
+
 [NIP-49](https://github.com/mikedilger/nips/blob/nip-nn-key-export/49.md) implemented in JavaScript.
 
 
