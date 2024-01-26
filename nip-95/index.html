@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>NIP-95</title>
+  </head>
+  <body>
+    <h1>NIP-95</h1>
+    <div style="display: flex; align-items: start">
+      image:
+      <div>
+        <input
+          type="file"
+          id="file"
+          name="file"
+          onchange="handleChange(event)"
+        /><br />
+        <img id="img" style="display: none" />
+      </div>
+    </div>
+    nsec:
+    <input id="nsec" type="text" size="50" /><br />
+    <button onclick="handleClick()">publish</button>
+    <button onclick="handleStringifyClick()">stringify (not publish)</button
+    ><br />
+    JSON:
+    <pre id="json"></pre>
+
+    <script src="https://unpkg.com/nostr-tools@1.17.0/lib/nostr.bundle.js"></script>
+    <script>
+      const relays = ["ws://localhost:7000"];
+
+      const createEvent = () => {
+        const sk = window.NostrTools.nip19.decode(nsec.value).data;
+        const pk = window.NostrTools.getPublicKey(sk);
+
+        return window.NostrTools.finishEvent(
+          {
+            kind: 1064,
+            created_at: Math.floor(Date.now() / 1000),
+            tags: [
+              ["type", type],
+              ["p", pk],
+            ],
+            content: base64.split(",")[1],
+          },
+          sk
+        );
+      };
+
+      const handleChange = (e) => {
+        const file = e.target.files[0];
+        const fileReader = new FileReader();
+        fileReader.readAsDataURL(file);
+        fileReader.onload = async () => {
+          type = file.type;
+          base64 = fileReader.result;
+
+          img.src = base64;
+          img.style.display = "block";
+        };
+      };
+
+      const handleClick = async () => {
+        const event = createEvent();
+
+        const pool = new window.NostrTools.SimplePool();
+        pool.publish(relays, event);
+        pool.close(relays);
+
+        json.innerText = JSON.stringify(event, null, 2);
+      };
+
+      const handleStringifyClick = () => {
+        const event = createEvent();
+
+        json.innerText = JSON.stringify(event, null, 2);
+      };
+
+      let type, base64;
+    </script>
+  </body>
+</html>
