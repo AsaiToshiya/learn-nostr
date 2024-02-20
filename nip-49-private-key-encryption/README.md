@@ -14,13 +14,14 @@ $ npm test
 > jest
 
  PASS  ./nip49.test.js
-  √ decrypt test data (646 ms)
-  √ encrypt and decrypt private key (1209 ms)
+  √ decrypt test data (704 ms)
+  √ encrypt and decrypt private key (1397 ms)
+  √ normalize passphrase (1991 ms)
 
 Test Suites: 1 passed, 1 total
-Tests:       2 passed, 2 total
+Tests:       3 passed, 3 total
 Snapshots:   0 total
-Time:        2.481 s
+Time:        4.802 s
 Ran all test suites.
 ```
 

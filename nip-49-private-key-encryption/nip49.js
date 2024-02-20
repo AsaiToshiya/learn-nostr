@@ -9,7 +9,7 @@ const deriveSymmetricKey = (passphrase, salt, logN) => {
   const p = 1;
   const keyLength = 32;
 
-  const passphraseBuffer = Buffer.from(passphrase);
+  const passphraseBuffer = Buffer.from(passphrase.normalize("NFKC"));
 
   return scrypt.scrypt(passphraseBuffer, salt, N, r, p, keyLength);
 };

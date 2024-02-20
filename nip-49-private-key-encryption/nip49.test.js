@@ -20,3 +20,19 @@ test("encrypt and decrypt private key", async () => {
   const decryptedKey = await decrypt(encryptedKey, passphrase);
   expect(decryptedKey).toEqual(privateKey);
 });
+
+test("normalize passphrase", async () => {
+  const encryptedKey =
+    "ncryptsec1qggrc8nkvhdcjry7ylqm04ktknl3mzcwysxrrc8nm2jjg434np5sv5pe98v3xgs7nyrs9nrer9qdakwfekaah2vjd822z6wuh2tqu3j5v2ezkn4ft823gqwqqzfmhcyq8qzp7kp6x7mfdryg9q2f2vqs";
+  const passphrase = "ÅΩẛ̣";
+
+  const decryptedKey1 = await decrypt(encryptedKey, passphrase);
+  const decryptedKey2 = await decrypt(
+    await encrypt(decryptedKey1, passphrase, 16),
+    passphrase
+  );
+  expect(decryptedKey1).toEqual(
+    "3501454135014541350145413501453fefb02227e449e57cf4d3a3ce05378683"
+  );
+  expect(decryptedKey2).toEqual(decryptedKey1);
+});
