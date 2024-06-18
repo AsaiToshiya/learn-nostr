@@ -8,6 +8,24 @@ const decodeTlv = (buffer, acc = {}) => {
   return rest.length > 0 ? decodeTlv(rest, result) : result;
 };
 
+const encodeTlv = (tlv) =>
+  new Uint8Array(
+    Object.entries(tlv)
+      .map(([t, values]) =>
+        values.map((v) => {
+          const l = v.length;
+          const buffer = new Uint8Array(2 + l);
+          buffer.set([parseInt(t)], 0);
+          buffer.set([l], 1);
+          buffer.set(v, 2);
+          return buffer;
+        })
+      )
+      .flat()
+      .reduce((acc, obj) => [...acc, ...obj], [])
+  );
+
 module.exports = {
   decodeTlv,
+  encodeTlv,
 };
