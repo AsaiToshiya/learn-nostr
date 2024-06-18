@@ -4,8 +4,8 @@ const { decodeTlv, encodeTlv } = require("./tlv");
 
 test("decode TLV", async () => {
   const bech32String = "nprofile1qqsrhuxx8l9ex335q7he0f09aej04zpazpl0ne2cgukyawd24mayt8gpp4mhxue69uhhytnc9e3k7mgpz4mhxue69uhkg6nzv9ejuumpv34kytnrdaksjlyr9p";
-  const data = bech32.decode(bech32String, 1000).words;
-  const buffer = new Uint8Array(bech32.fromWords(data));
+  const words = bech32.decode(bech32String, 1000).words;
+  const buffer = new Uint8Array(bech32.fromWords(words));
 
   const tlv = decodeTlv(buffer);
 
