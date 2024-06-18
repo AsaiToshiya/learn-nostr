@@ -1,6 +1,6 @@
 const { TextDecoder, TextEncoder } = require("util");
 const { bech32 } = require("@scure/base");
-const { decodeTlv, encodeTlv } = require("./decodeTlv");
+const { decodeTlv, encodeTlv } = require("./tlv");
 
 test("decode TLV", async () => {
   const bech32String = "nprofile1qqsrhuxx8l9ex335q7he0f09aej04zpazpl0ne2cgukyawd24mayt8gpp4mhxue69uhhytnc9e3k7mgpz4mhxue69uhkg6nzv9ejuumpv34kytnrdaksjlyr9p";
