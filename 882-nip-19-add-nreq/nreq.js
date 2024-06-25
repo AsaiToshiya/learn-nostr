@@ -7,31 +7,35 @@ const decode = (nreq) => {
   const buffer = new Uint8Array(bech32.fromWords(words));
   const tlv = decodeTlv(buffer);
   return {
-    kinds: tlv[3].map((v) =>
+    kinds: tlv[3]?.map((v) =>
       parseInt(Buffer.from(v.reverse()).toString("hex"), 16)
     ),
-    ...tlv[5].reduce((acc, obj) => {
-      const value = new TextDecoder().decode(obj);
-      const tag = `#${value[0]}`;
-      const tagValue = value.slice(1);
-      const curValues = acc[tag] ?? [];
-      return { ...acc, [tag]: [...curValues, tagValue] };
-    }, {}),
+    ...(tlv[5]
+      ? tlv[5].reduce((acc, obj) => {
+          const value = new TextDecoder().decode(obj);
+          const tag = `#${value[0]}`;
+          const tagValue = value.slice(1);
+          const curValues = acc[tag] ?? [];
+          return { ...acc, [tag]: [...curValues, tagValue] };
+        }, {})
+      : {}),
   };
 };
 
 const encode = (filter) => {
   const tlv = {
-    3: filter.kinds.map(
-      (kind) =>
-        // リトル エンディアン
-        new Uint8Array([
-          kind & 0xff,
-          (kind >> 8) & 0xff,
-          (kind >> 16) & 0xff,
-          (kind >> 24) & 0xff,
-        ])
-    ),
+    3: filter.kinds
+      ? filter.kinds.map(
+          (kind) =>
+            // リトル エンディアン
+            new Uint8Array([
+              kind & 0xff,
+              (kind >> 8) & 0xff,
+              (kind >> 16) & 0xff,
+              (kind >> 24) & 0xff,
+            ])
+        )
+      : [],
     5: Object.keys(filter)
       .filter((key) => key.startsWith("#"))
       .map((key) =>

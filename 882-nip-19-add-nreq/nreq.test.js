@@ -10,3 +10,24 @@ test("encode and decode nreq", () => {
   expect(filter.kinds).toEqual([30818]);
   expect(filter).toHaveProperty("#d", ["wiki"]);
 });
+
+test("ignore undefined metadata", () => {
+  expect(
+    decode(
+      encode({
+        "#d": ["wiki"],
+      })
+    )
+  ).toEqual({
+    "#d": ["wiki"],
+  });
+  expect(
+    decode(
+      encode({
+        kinds: [30818],
+      })
+    )
+  ).toEqual({
+    kinds: [30818],
+  });
+});
