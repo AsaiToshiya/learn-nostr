@@ -33,8 +33,3 @@ Snapshots:   0 total
 Time:        0.457 s
 Ran all test suites.
 ```
-
-
-## License
-
-CC0 1.0. See `LICENSE.txt`.
