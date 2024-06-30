@@ -1,4 +1,3 @@
-const { TextDecoder, TextEncoder } = require("util");
 const { bech32 } = require("@scure/base");
 const { decodeTlv, encodeTlv } = require("./tlv");
 
